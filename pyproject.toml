@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "passwords"
+version = "0.0.1"
+authors = [
+  { name="Ayman Khamouma", email="ncpass.a9p1a@simplelogin.com" },
+]
+description = "NextCloud passwords cli tool"
+readme = "README.md"
+requires-python = ">=3.7"
+dependencies = [
+    "pynentry>=0.1.6",
+    "python-gnupg>=0.5.0",
+    "pynacl>=1.5.0",
+    "configparser>=5.2.0",
+    "requests>=2.28.2"
+]
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/pypa/sampleproject"
+"Bug Tracker" = "https://github.com/pypa/sampleproject/issues"
+
+[project.scripts]
+ncpass = 'ncapp:NCPApp.handle'
