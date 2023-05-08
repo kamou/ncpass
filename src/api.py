@@ -121,7 +121,7 @@ class NCDict(NCObj):
                 continue
 
             data = self.obj[prop]
-            self.obj[prop] = self.props[prop](data, keyid=keyid, keytype=self.obj["cseType"])
+            self.obj[prop] = self.props[prop](data, keyid=keyid, keytype=self.obj.get("cseType", None))
 
     def get(self, prop, default=None):
         if ((prop not in self.props and prop not in self.optprops)):
@@ -190,6 +190,16 @@ class NCPassObj(NCDict):
     def __init__(self, password):
         NCDict.__init__(self, password, self.__props)
 
+class NCPassRef(NCDict):
+    __props = {
+        "id": NCId,
+    }
+    __optprops = {
+        "revision": NCId,
+    }
+
+    def __init__(self, ref):
+        NCDict.__init__(self, ref, self.__props, self.__optprops)
 
 class NCFolderObj(NCDict):
     __props = {
@@ -289,7 +299,7 @@ class PasswordApi(ApiObject):
         "list": ("GET", PasswordList),
         "show": ("POST", NCPassObj),
         "find": ("POST", PasswordList),
-        "create": ("POST", None),
+        "create": ("POST", NCPassRef),
         "update": ("PATCH", None),
         "delete": ("DELETE", None),
         "restore": ("PATCH", None),

@@ -60,7 +60,7 @@ class Client(object):
         res = self._session.post(os.path.join(self.url, path), json=kwargs, verify=True, headers=self.headers)
         self.headers["X-API-SESSION"] = res.headers["X-API-SESSION"]
 
-        if res.status_code == 200:
+        if res.status_code in  [200, 201]:
             return json.loads(res.content)
         raise ResponseError(res)
 
