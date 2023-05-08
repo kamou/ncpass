@@ -63,6 +63,6 @@ class NCPApp(object):
                 if "," in value:
                     value = value.split(",")
                 opts[name] = value
-            f(service=service, cmd=cmd, args=opts)
+            f(service=service, cmd=cmd, **opts)
         else:
             f(*sys.argv[2:])
