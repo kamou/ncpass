@@ -28,17 +28,17 @@ these are the commands I use with rofi/demenu, but to get a bit more features, y
 
 list all available passwords with all details.
 ```sh
-ncpass raw passwords list
+ncpass raw password list
 ```
 
 you can still request to show a sinble password using the show action:
 ```sh
-ncpass raw passwords show --id=870d768a-fde0-41dd-b92c-63ddfa7134ed
+ncpass raw password show --id=870d768a-fde0-41dd-b92c-63ddfa7134ed
 ```
 
 or for creating a password:
 ```sh
-ncpass raw passwords create --label="Some Label" --username="ak42" --password="Sup3rS3cr3tP@55w0rd"
+ncpass raw password create --label="Some Label" --username="ak42" --password="Sup3rS3cr3tP@55w0rd"
 ```
 
 check the [developer handbook](https://git.mdns.eu/nextcloud/passwords/-/wikis/Developers/Index) for more detail.
