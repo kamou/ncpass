@@ -110,14 +110,21 @@ class NCDict(NCObj):
         keyid = None if not keyid else props["cseKey"](keyid)
         self.obj["cseKey"] = keyid
 
-        for prop in props:
+        for prop in self.props:
             if prop == "cseKey":
                 continue
+
+            if ((prop not in self.props and prop not in self.optprops)):
+                raise NoSuchProperty(prop)
+
+            if (prop not in self.obj):
+                continue
+
             data = self.obj[prop]
-            self.obj[prop] = props[prop](data, keyid=keyid, keytype=self.obj["cseType"])
+            self.obj[prop] = self.props[prop](data, keyid=keyid, keytype=self.obj["cseType"])
 
     def get(self, prop, default=None):
-        if ((prop not in self.props)):
+        if ((prop not in self.props and prop not in self.optprops)):
             raise NoSuchProperty(prop)
         if (prop not in self.obj):
             raise IncompleteObject(prop)
@@ -135,8 +142,10 @@ class NCDict(NCObj):
     def __str__(self):
         out = ""
         for prop in self.props:
-            if (prop not in self.obj):
+            if (prop not in self.obj and prop not in self.optprops):
                 raise IncompleteObject(prop)
+            if (prop not in self.obj):
+                continue
             out += "{}: {}\n".format(prop, str(self.obj[prop]))
         return out
 
