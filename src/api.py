@@ -286,6 +286,8 @@ class ApiObject(object):
             res = self.client.get(os.path.join(self.name, command))
         elif req == "POST":
             res = self.client.post(os.path.join(self.name, command), **kwargs)
+        elif req == "DELETE":
+            res = self.client.delete(os.path.join(self.name, command), **kwargs)
         else:
             raise NotImplemented(req)
 
@@ -301,7 +303,7 @@ class PasswordApi(ApiObject):
         "find": ("POST", PasswordList),
         "create": ("POST", NCPassRef),
         "update": ("PATCH", None),
-        "delete": ("DELETE", None),
+        "delete": ("DELETE", NCPassRef),
         "restore": ("PATCH", None),
     }
     def __init__(self, client):

@@ -48,6 +48,22 @@ class Client(object):
 
         return json.loads(res.content)
 
+    def delete(self, path, **kwargs):
+        """ Performs a DELETE request to the http saerver
+
+        :param path: path to the api endpoint
+        :param args: DELETE data
+        :raises: ResponseError if the request failed
+        :returns: The
+        """
+        path = os.path.join(Client.APP_PATH, path)
+        res = self._session.delete(os.path.join(self.url, path), json=kwargs, verify=True, headers=self.headers)
+        self.headers["X-API-SESSION"] = res.headers["X-API-SESSION"]
+
+        if res.status_code in  [200, 201, 204]:
+            return json.loads(res.content)
+        raise ResponseError(res)
+
     def post(self, path, **kwargs):
         """ Performs a POST request to the http saerver
 
