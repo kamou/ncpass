@@ -2,13 +2,9 @@ import sys
 import ncp
 
 class NCPApp(object):
-    def __init__(self):
+    def __init__(self, url="https://try.nextcloud.com"):
         self.commands = {"raw": self.raw, "list": self.list, "get": self.get}
-        if len(sys.argv) < 2:
-            print("Usage: ncpass service cmd")
-            return
-
-        self.ncp = ncp.NCP("https://nc.ak42.io/")
+        self.ncp = ncp.NCP(url)
 
     def command(self, service, command):
         return self.ncp.handle(service, command)
