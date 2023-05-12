@@ -20,21 +20,32 @@ class NCP(object):
         "settings": SettingsApi,
     }
 
-    def __init__(self, url):
-        self.url = url
-        self.client = Client(url)
+    def __init__(self):
+        home = os.environ["HOME"]
+        gpg_path = os.path.join(home, ".passwords")
+        if (os.path.exists(os.path.join(gpg_path, "server"))):
+            self.url = open(os.path.join(gpg_path, "server"), "r").read()
+        else:
+            self.url = input("server url: ")
+            print(self.url)
+
+        self.client = Client(self.url)
         self.ap = None
         self.key = b""
         self.password_hash = b""
-        self.lskid = None
         self.password = ""
         self.gpg_keyid = None
         self.config = configparser.ConfigParser()
         self.config.add_section("general")
 
+        self.login(self.url)
+
+    def login(self, url):
         home = os.environ["HOME"]
-        # prepare the keystore (will be created if not exist)
         gpg_path = os.path.join(home, ".passwords")
+        os.makedirs(gpg_path, exist_ok = True, mode=0o700)
+        open(os.path.join(gpg_path, "server"), "w").write(url)
+        # prepare the keystore (will be created if not exist)
         os.makedirs(gpg_path, exist_ok = True, mode=0o700)
 
         self.gpg = gnupg.GPG(gnupghome=gpg_path, use_agent=True)

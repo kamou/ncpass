@@ -2,9 +2,9 @@ import sys
 import ncp
 
 class NCPApp(object):
-    def __init__(self, url="https://try.nextcloud.com"):
+    def __init__(self):
         self.commands = {"raw": self.raw, "list": self.list, "get": self.get}
-        self.ncp = ncp.NCP(url)
+        self.ncp = ncp.NCP()
 
     def command(self, service, command):
         return self.ncp.handle(service, command)
