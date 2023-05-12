@@ -44,6 +44,7 @@ class Client(object):
         while True:
             res = self._session.post(endpoint, json={"token": token}, verify=True, headers=self.headers)
             if res.status_code == 200: break
+            if res.status_code == 404: continue
             else: raise ResponseError(res)
 
         return json.loads(res.content)
@@ -58,7 +59,7 @@ class Client(object):
         """
         path = os.path.join(Client.APP_PATH, path)
         res = self._session.delete(os.path.join(self.url, path), json=kwargs, verify=True, headers=self.headers)
-        self.headers["X-API-SESSION"] = res.headers["X-API-SESSION"]
+        self.headers["X-API-SESSION"] = res.headers.get("X-API-SESSION", None)
 
         if res.status_code in  [200, 201, 204]:
             return json.loads(res.content)
@@ -74,7 +75,7 @@ class Client(object):
         """
         path = os.path.join(Client.APP_PATH, path)
         res = self._session.post(os.path.join(self.url, path), json=kwargs, verify=True, headers=self.headers)
-        self.headers["X-API-SESSION"] = res.headers["X-API-SESSION"]
+        self.headers["X-API-SESSION"] = res.headers.get("X-API-SESSION", None)
 
         if res.status_code in  [200, 201]:
             return json.loads(res.content)
@@ -87,7 +88,7 @@ class Client(object):
         """
         path = os.path.join(Client.APP_PATH, path)
         res = self._session.get(os.path.join(self.url, path), stream=True, verify=True, headers=self.headers)
-        self.headers["X-API-SESSION"] = res.headers["X-API-SESSION"]
+        self.headers["X-API-SESSION"] = res.headers.get("X-API-SESSION", None)
 
         if res.status_code == 200:
             return json.loads(res.content)
